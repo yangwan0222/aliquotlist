@@ -1,4 +1,4 @@
-####### Aliquot list, ADNI only #######
+####### Aliquot list, ADNI only (part1) #######
 
 library('stringr')
 
@@ -84,4 +84,5 @@ names(d1) <- c("RID","CollectDate",
                "SER","SERVOL","SER_SENT","SER_USED",
                "CSF","CSFVOL","CSF_SENT","CSF_USED",
                "URN","URNVOL","URN_SENT","URN_USED")
+
 
