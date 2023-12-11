@@ -3,7 +3,7 @@
 library('stringr')
 library(lubridate)
 
-d <- read.csv("C://Users//wanya//Desktop//aliquotlist//New folder//results.csv")
+d <- read.csv("C://Users//wanya//Downloads//results (18).csv")
 d$Global.Specimen.ID <- substr(d$Global.Specimen.ID,1,nchar(d$Global.Specimen.ID)-3)
 d1 <- unique(d[,c(5,9)])
 d1 <- d1[d1$Derivative=="BLD",]
@@ -37,7 +37,7 @@ for(i in seq(length(unique(d$ID1))))
       t2[1,4] <- max(t1[t1$Primary=="BLD" & t1$Additive=="EDT",]$Available.Volume)
       t2[1,5] <- sum((t1[t1$Derivative == "PLA",]$Has.Shipped == "Yes") | grepl("sent|shipped",t1[t1$Derivative == "PLA",]$Specimen.Comments,ignore.case = TRUE) == TRUE)
       t2[1,6] <- sum(grepl("used|hcys|isoprostane|rest|pool",t1[t1$Derivative == "PLA",]$Specimen.Comments,ignore.case = TRUE)-
-                       grepl("unused",t1[t1$Derivative == "PLA",]$Specimen.Comments,ignore.case = TRUE) - grepl("wrong label",t1[t1$Derivative == "PLA",]$Specimen.Comments,ignore.case = TRUE))
+                       grepl("unused",t1[t1$Derivative == "PLA",]$Specimen.Comments,ignore.case = TRUE) - grepl("incorrect label",t1[t1$Derivative == "PLA",]$Specimen.Comments,ignore.case = TRUE))
       t2[1,19] <- sum(grepl("disappear|dispose|missing",t1[t1$Derivative == "PLA",]$Specimen.Comments,ignore.case = TRUE))
       # regexpr(" used ", t1[t1$Derivative == "PLA",]$Specimen.Comments) > 0
     } else {
@@ -55,7 +55,7 @@ for(i in seq(length(unique(d$ID1))))
       t2[1,8] <- max(t1[t1$Primary=="BLD" & t1$Additive=="NON",]$Available.Volume)
       t2[1,9] <- sum((t1[t1$Derivative == "SER",]$Has.Shipped == "Yes") | grepl("sent|shipped",t1[t1$Derivative == "SER",]$Specimen.Comments,ignore.case = TRUE) == TRUE)
       t2[1,10] <- sum(grepl("used|isoprostane|rest|pool",t1[t1$Derivative == "SER",]$Specimen.Comments,ignore.case = TRUE)-
-                       grepl("unused",t1[t1$Derivative == "SER",]$Specimen.Comments,ignore.case = TRUE) - grepl("wrong label",t1[t1$Derivative == "SER",]$Specimen.Comments,ignore.case = TRUE))
+                       grepl("unused",t1[t1$Derivative == "SER",]$Specimen.Comments,ignore.case = TRUE) - grepl("incorrect label",t1[t1$Derivative == "SER",]$Specimen.Comments,ignore.case = TRUE))
       t2[1,20] <- sum(grepl("disappear|dispose|missing",t1[t1$Derivative == "SER",]$Specimen.Comments,ignore.case = TRUE))
     } else {
       t2[1,7:10] <- 0
@@ -72,7 +72,7 @@ for(i in seq(length(unique(d$ID1))))
       t2[1,12] <- max(t1[t1$Primary=="CSF" & t1$Additive=="NON",]$Available.Volume)
       t2[1,13] <- sum((t1[t1$Derivative == "CSF",]$Has.Shipped == "Yes") | grepl("sent|shipped",t1[t1$Derivative == "CSF",]$Specimen.Comments,ignore.case = TRUE) == TRUE)
       t2[1,14] <- sum(grepl("used|isoprostane|rest|pool",t1[t1$Derivative == "CSF",]$Specimen.Comments,ignore.case = TRUE)-
-                       grepl("unused",t1[t1$Derivative == "CSF",]$Specimen.Comments,ignore.case = TRUE) - grepl("wrong label",t1[t1$Derivative == "CSF",]$Specimen.Comments,ignore.case = TRUE))
+                       grepl("unused",t1[t1$Derivative == "CSF",]$Specimen.Comments,ignore.case = TRUE) - grepl("incorrect label",t1[t1$Derivative == "CSF",]$Specimen.Comments,ignore.case = TRUE))
       t2[1,21] <- sum(grepl("disappear|dispose|missing",t1[t1$Derivative == "CSF",]$Specimen.Comments,ignore.case = TRUE))
     } else {
       t2[1,11:14] <- 0
@@ -89,7 +89,7 @@ for(i in seq(length(unique(d$ID1))))
       t2[1,16] <- max(t1[t1$Primary=="URN" & t1$Additive=="NON",]$Available.Volume)
       t2[1,17] <- sum((t1[t1$Derivative == "URN",]$Has.Shipped == "Yes") | grepl("sent|shipped",t1[t1$Derivative == "URN",]$Specimen.Comments,ignore.case = TRUE) == TRUE)
       t2[1,18] <- sum(grepl("used|isoprostane|rest|pool",t1[t1$Derivative == "URN",]$Specimen.Comments,ignore.case = TRUE)-
-                       grepl("unused",t1[t1$Derivative == "URN",]$Specimen.Comments,ignore.case = TRUE) - grepl("wrong label",t1[t1$Derivative == "URN",]$Specimen.Comments,ignore.case = TRUE))
+                       grepl("unused",t1[t1$Derivative == "URN",]$Specimen.Comments,ignore.case = TRUE) - grepl("incorrect label",t1[t1$Derivative == "URN",]$Specimen.Comments,ignore.case = TRUE))
       t2[1,22] <- sum(grepl("disappear|dispose|missing",t1[t1$Derivative == "URN",]$Specimen.Comments,ignore.case = TRUE))
     } else {
       t2[1,15:18] <- 0
@@ -120,46 +120,92 @@ d1$SER <- d1$SER-d1$SER_SENT-d1$SER_USED-d1$SER_missing
 d1$CSF <- d1$CSF-d1$CSF_SENT-d1$CSF_USED-d1$CSF_missing
 d1$URN <- d1$URN-d1$URN_SENT-d1$URN_USED-d1$URN_missing
 
-d1 <- read.csv("C://Users//wanya//Desktop//aliquotlist//New folder//results_v1.csv")
+# d1 <- read.csv("C://Users//wanya//Desktop//aliquotlist//New folder//results_v1.csv")
 
-d2 <- read.csv("C://Users//wanya//Desktop//FNIH BC//adni_inventory.csv")[,c(3:8)]
-d2 <- d2[d2$TABLE == "biomark",]
-d2$EXAMDATE <- mdy(d2$EXAMDATE)
+# d2 <- read.csv("C://Users//wanya//Desktop//FNIH BC//adni_inventory.csv")[,c(3:8)]
+# d2 <- d2[d2$TABLE == "biomark",]
+# d2$EXAMDATE <- mdy(d2$EXAMDATE)
 d1$CollectDate <- dmy(d1$CollectDate)
+d2 <- d1[,c(1:18)]
 
-for(i in seq(nrow(d1)))
+library(ADNIMERGE)
+d3 <- force(inventory)
+d3 <- d3[d3$EVENT == "Blood" | d3$EVENT == "Urine" | d3$EVENT == "CSF",]
+d3 <- d3[,c(1,4,7,8)]
+d3$EXAMDATE <- mdy(d3$EXAMDATE)
+d3$RID <- sprintf("%04d", d3$RID)
+
+d2$VISCODE2_pla <- NA
+d2$VISCODE2_ser <- NA
+d2$VISCODE2_csf <- NA
+d2$VISCODE2_urn <- NA
+for(i in seq(nrow(d2)))
 {
-  t <- d2[d2$RID==d1$RID[i],]
-  if(nrow(t)==0)
+  if(d2[i,4] != 0)
   {
-    d1$VISCODE[i] <- NA
-    d1$VISCODE2[i] <- NA
-    next
+    t <- na.omit(d3[d3$RID == d2$RID[i] & d3$EVENT == "Blood",])
+    if(nrow(t) != 0)
+    {
+      t$diff <- abs(t$EXAMDATE - d2$CollectDate[i])
+      if(min(t$diff)<90)
+      {
+        d2$VISCODE2_pla[i] <- t[t$diff == min(t$diff),]$VISCODE2[1]
+      }
+    }
   }
   
-  t$diff <- abs(t$EXAMDATE-d1$CollectDate[i])
-  if(min(t$diff)>90)
+  if(d2[i,8] != 0)
   {
-    d1$VISCODE[i] <- NA
-    d1$VISCODE2[i] <- NA
-    next
-  } else {
-    t <- t[t$diff == min(t$diff),]
+    t <- na.omit(d3[d3$RID == d2$RID[i] & d3$EVENT == "Blood",])
+    if(nrow(t) != 0)
+    {
+      t$diff <- abs(t$EXAMDATE - d2$CollectDate[i])
+      if(min(t$diff)<90)
+      {
+        d2$VISCODE2_ser[i] <- t[t$diff == min(t$diff),]$VISCODE2[1]
+      }
+    }
   }
   
-  if(nrow(t)==1)
+  if(d2[i,12] != 0)
   {
-    d1$VISCODE[i] <- t$VISCODE
-    d1$VISCODE2[i] <- t$VISCODE2
-  } else if ("init" %in% t$VISCODE) {
-    t <- t[t$VISCODE == "init",]
-    d1$VISCODE[i] <- t$VISCODE[1]
-    d1$VISCODE2[i] <- t$VISCODE2[1]
-  } else {
-    d1$VISCODE[i] <- t$VISCODE[1]
-    d1$VISCODE2[i] <- t$VISCODE2[1]
+    t <- na.omit(d3[d3$RID == d2$RID[i] & d3$EVENT == "CSF",])
+    if(nrow(t) != 0)
+    {
+      t$diff <- abs(t$EXAMDATE - d2$CollectDate[i])
+      if(min(t$diff)<90)
+      {
+        d2$VISCODE2_csf[i] <- t[t$diff == min(t$diff),]$VISCODE2[1]
+      }
+    }
+  }
+  
+  if(d2[i,16] != 0)
+  {
+    t <- na.omit(d3[d3$RID == d2$RID[i] & d3$EVENT == "Urine",])
+    if(nrow(t) != 0)
+    {
+      t$diff <- abs(t$EXAMDATE - d2$CollectDate[i])
+      if(min(t$diff)<90)
+      {
+        d2$VISCODE2_urn[i] <- t[t$diff == min(t$diff),]$VISCODE2[1]
+      }
+    }
   }
 }
 
+d2 <- d2[d2$RID != "0000",]
+write.csv(d2,"C://Users//wanya//Desktop//aliquotlist//New folder//results_v2.csv")
 
+d2$VISCODE2 <- NA
+for(i in seq(nrow(d2)))
+{
+  if(sum(is.na(d2[i,c(19:22)])) == 4)
+  {
+    d2$VISCODE2[i] <- NA
+  } else 
+  {
+    d2$VISCODE2[i] <- unique(d2[i,c(19:22)][!is.na(d2[i,c(19:22)])])
+  }
+}
 
